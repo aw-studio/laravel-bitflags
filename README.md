@@ -2,6 +2,11 @@
 
 Store and receive bitflags from a single database column.
 
+## Requirements
+
+- PHP 8.2+
+- Laravel 11, 12 or 13
+
 ## Installation
 
 ```bash
