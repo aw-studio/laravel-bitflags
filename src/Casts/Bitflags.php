@@ -3,6 +3,7 @@
 namespace AwStudio\Bitflags\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
 class Bitflags implements CastsAttributes
@@ -16,9 +17,13 @@ class Bitflags implements CastsAttributes
      * @param  array  $attributes
      * @return array
      */
-    public function get($model, $key, $value, $attributes)
+    public function get(Model $model, string $key, mixed $value, array $attributes): array
     {
-        $bits = array_reverse(str_split(decbin($value)));
+        if (is_null($value)) {
+            return [];
+        }
+
+        $bits = array_reverse(str_split(decbin((int) $value)));
         $mask = [];
         foreach ($bits as $i => $bit) {
             if ($bit != '0') {
@@ -35,9 +40,9 @@ class Bitflags implements CastsAttributes
      * @param  string  $key
      * @param  array  $value
      * @param  array  $attributes
-     * @return string
+     * @return int|null
      */
-    public function set($model, $key, $value, $attributes)
+    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         if (is_array($value)) {
             $bitmask = 0;
@@ -54,7 +59,7 @@ class Bitflags implements CastsAttributes
         return $value;
     }
 
-    public function isPowerOfTwo(Int $number)
+    public function isPowerOfTwo(int $number): bool
     {
         return ($number & ($number - 1)) == 0;
     }

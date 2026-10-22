@@ -2,6 +2,7 @@
 
 namespace AwStudio\Bitflags\Tests;
 
+use AwStudio\Bitflags\Casts\Bitflags;
 use AwStudio\Bitflags\Tests\TestSupport\TestModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
@@ -14,6 +15,11 @@ class BitflagCastTest extends TestCase
     {
         $model = TestModel::create(['status' => 0]);
         $this->assertIsArray($model->status);
+    }
+
+    public function test_it_will_cast_null_to_an_empty_array()
+    {
+        $this->assertSame([], (new Bitflags)->get(new TestModel, 'status', null, []));
     }
 
     public function test_it_will_transform_an_array_to_bitmask_on_update()
