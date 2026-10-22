@@ -5,7 +5,7 @@ Store and receive bitflags from a single database column.
 ## Installation
 
 ```bash
-composer require aw-studio/bitflags
+composer require aw-studio/laravel-bitflags
 ```
 
 ## Usage
